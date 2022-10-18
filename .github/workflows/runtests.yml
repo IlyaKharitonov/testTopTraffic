@@ -22,14 +22,6 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - uses: actions/checkout@v3
-
-      - name: Set up Go
-        uses: actions/setup-go@v3
-        with:
-          go-version: 1.19
-          check-latest: true
-
       - name: Create dir for binaries
         run: mkdir builds
 
@@ -47,32 +39,32 @@ jobs:
 
       # your code must be built into builds/ssp binary
       - name: Build SSP binary
-        run: echo Ain\'t no ssp yet
+        run: ./builds/ssp go built -o "ssp"
 
-      #- name: Making it executable
-      #  run: chmod +x builds/ssp
+      - name: Making it executable
+       run: chmod +x builds/ssp
 
       # run a battery of tests
       - name: happy path
-        run: (cd builds && ./tests -test.v -test.run Test_HappyPath) && sleep 1
+        run: ./builds/tests -test.run Test_HappyPath
 
       - name: not totally happy path, easy difficulty
-        run: (cd builds && ./tests -test.v -test.run Test_LessHappyEasy) && sleep 1
+        run: ./builds/tests -test.run Test_LessHappyEasy
 
       - name: not totally happy path, medium difficulty
-        run: (cd builds && ./tests -test.v -test.run Test_LessHappyMedium) && sleep 1
+        run: ./builds/tests -test.run Test_LessHappyMedium
 
       - name: not totally happy path, hard difficulty
-        run: (cd builds && ./tests -test.v -test.run Test_LessHappyHard) && sleep 1
+        run: ./builds/tests -test.run Test_LessHappyHard
 
       - name: not happy at all, easy difficulty
-        run: (cd builds && ./tests -test.v -test.run Test_NotHappyEasy) && sleep 1
+        run: ./builds/tests -test.run Test_NotHappyEasy
 
       - name: not happy at all, medium difficulty
-        run: (cd builds && ./tests -test.v -test.run Test_NotHappyMedium) && sleep 1
+        run: ./builds/tests -test.run Test_NotHappyMedium
 
       - name: not happy at all, hard difficulty
-        run: (cd builds && ./tests -test.v -test.run Test_NotHappyHard) && sleep 1
+        run: ./builds/tests -test.run Test_NotHappyHard
 
       - name: not happy at all, hardcore difficulty
-        run: (cd builds && ./tests -test.v -test.run Test_NotHappyHardcore) && sleep 1
+        run: ./builds/tests -test.run Test_NotHappyHardcore
