@@ -42,7 +42,6 @@ func (as *advertiserService)Request(ctx context.Context, request *entities.Reque
 
 	go prepareResponse(request, respCh, impRespCh)
 
-	fmt.Println(as.addresses)
 	for _, a := range as.addresses{
 		wg.Add(1)
 		go execBidRequest(ctxWithTimeout, as.cli, a, reqBody, respCh, wg)
@@ -87,7 +86,7 @@ func execBidRequest(ctx context.Context, cli *http.Client, addr string, reqBody 
 
 	defer wg.Done()
 
-	req, err := http.NewRequestWithContext(ctx, http.MethodPost, addr, bytes.NewBuffer(reqBody))
+	req, err := http.NewRequestWithContext(ctx, http.MethodPost, fmt.Sprintf("//%s",addr), bytes.NewBuffer(reqBody))
 	if err != nil {
 		log.Printf("requestService.execBidRequest() #1, request error:%s ,addr: %s", err.Error(), addr)
 		return
