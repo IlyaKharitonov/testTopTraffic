@@ -33,7 +33,7 @@ func main() {
 
 
 	fmt.Printf("\nstarted server on %s:%s\n",*address, *port)
-	err = http.ListenAndServe(fmt.Sprintf("%s:%s",*address, *port), nil )
+	err = http.ListenAndServe(fmt.Sprintf("%s:%q",*address, *port), nil )
 	if err != nil {
 		log.Fatal(err)
 	}
